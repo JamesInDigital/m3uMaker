@@ -9,3 +9,8 @@ I setup a Miyoo Mini+ and an original RG35XX at the same time with their respect
 For organization purposes some folders were split into lettered subfolders due to amount of games. 
 Garlic is unable to read these subfolders and both systems will have duplicate enteries for games and m3us unless configs are edited.
 Used rusty, old Python memory and some ChatGPT for based code to write a utility to automate M3U creation to help clean up menus and hopefully keep subdirs in tact for cloning SD cards between the two systems.
+
+Notes:
+See issues for possible special cases not working.
+Not all EMUs will support M3U, so RG35XX won't be able to make use of subfolders (assuming it works currently as is).
+This isn't designed to touch the rom files in any ways (as opposed to the Doom setup script I created for the Miyoo) so shouldn't be any worries there. But take precautions. As always, not a REAL programmer.
