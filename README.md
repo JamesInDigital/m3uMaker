@@ -13,7 +13,9 @@ This work is licensed under a
 M3U creation script originally designed to help organize roms for retro handhelds. Handles multi-disc games and subfolders.
 
 Update to v2d: Fixed second run. Will ignore games already processed in .hidden folder.
+
 Update to v2c: Fixed disc order in m3u and working with subdirectories.
+
 Update 7-18-24 to v2: Currently setting up a friend RG35XX+ under muOS and have modified the code to make use of .hidden subfolder for a cleaner interface when it comes to multi-disc games. As always, not a real programmer, use at your own discetion with backs. V2 moves multidisc games to .hidden subfolder and modifies the m3u accordingly. Testing work for PS1 games on RG35XX+
 
 The Short:
