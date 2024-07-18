@@ -41,6 +41,9 @@ def separate_games(folder_path):
     
     return multi_disc_games
 
+def natural_sort_key(s):
+    return [int(text) if text.isdigit() else text.lower() for text in re.split(r'(\d+)', s)]
+
 def m3u_multi(parent_directory, multi_disc_games):
     for folder, files in multi_disc_games.items():
         grouped_games = {}
@@ -65,6 +68,8 @@ def m3u_multi(parent_directory, multi_disc_games):
             os.makedirs(hidden_folder_path)
         
         for base_name, data in grouped_games.items():
+            # Sort the files in natural order
+            data['files'].sort(key=lambda x: natural_sort_key(os.path.basename(x)))
             m3u_file_path = os.path.join(folder, f"{base_name}.m3u")
             with open(m3u_file_path, 'w', newline='\n') as m3u_file:
                 for file_path in data['files']:
