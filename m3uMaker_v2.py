@@ -26,7 +26,7 @@ def find_diskside_identifier(file_name):
     return None
 
 def separate_games(folder_path):
-    multi_disc_games = []
+    multi_disc_games = {}
     
     for root, dirs, files in os.walk(folder_path):
         for file in files:
@@ -35,39 +35,42 @@ def separate_games(folder_path):
                 diskside_identifier = find_diskside_identifier(file)
 
                 if multi_disc_identifier or diskside_identifier:
-                    multi_disc_games.append(os.path.join(root, file))
+                    if root not in multi_disc_games:
+                        multi_disc_games[root] = []
+                    multi_disc_games[root].append(os.path.join(root, file))
     
     return multi_disc_games
 
 def m3u_multi(parent_directory, multi_disc_games):
-    grouped_games = {}
-    
-    for game_path in multi_disc_games:
-        folder_name, file_name = os.path.split(game_path)
-        identifier = find_multi_disc_identifier(file_name)
-        if identifier == "diskside":
-            base_name, _ = os.path.splitext(file_name)
-        else:
-            base_name, extension = os.path.splitext(re.sub(r'\(.*\)|\[.*\]', '', file_name).strip())
-            last_hyphen_index = base_name.rfind('- ')
-            if last_hyphen_index != -1:
-                base_name = base_name[:last_hyphen_index].strip()
+    for folder, files in multi_disc_games.items():
+        grouped_games = {}
         
-        if base_name not in grouped_games:
-            grouped_games[base_name] = {'identifier': identifier, 'files': []}
-        grouped_games[base_name]['files'].append(game_path)
+        for game_path in files:
+            folder_name, file_name = os.path.split(game_path)
+            identifier = find_multi_disc_identifier(file_name)
+            if identifier == "diskside":
+                base_name, _ = os.path.splitext(file_name)
+            else:
+                base_name, extension = os.path.splitext(re.sub(r'\(.*\)|\[.*\]', '', file_name).strip())
+                last_hyphen_index = base_name.rfind('- ')
+                if last_hyphen_index != -1:
+                    base_name = base_name[:last_hyphen_index].strip()
+            
+            if base_name not in grouped_games:
+                grouped_games[base_name] = {'identifier': identifier, 'files': []}
+            grouped_games[base_name]['files'].append(game_path)
 
-    hidden_folder_path = os.path.join(parent_directory, ".hidden")
-    if not os.path.exists(hidden_folder_path):
-        os.makedirs(hidden_folder_path)
-    
-    for base_name, data in grouped_games.items():
-        m3u_file_path = os.path.join(parent_directory, f"{base_name}.m3u")
-        with open(m3u_file_path, 'w', newline='\n') as m3u_file:
-            for file_path in data['files']:
-                dest_path = os.path.join(hidden_folder_path, os.path.basename(file_path))
-                shutil.move(file_path, dest_path)
-                m3u_file.write(f".hidden/{os.path.basename(dest_path).replace(os.sep, '/').replace(' /', '/ ')}\n")
+        hidden_folder_path = os.path.join(folder, ".hidden")
+        if not os.path.exists(hidden_folder_path):
+            os.makedirs(hidden_folder_path)
+        
+        for base_name, data in grouped_games.items():
+            m3u_file_path = os.path.join(folder, f"{base_name}.m3u")
+            with open(m3u_file_path, 'w', newline='\n') as m3u_file:
+                for file_path in data['files']:
+                    dest_path = os.path.join(hidden_folder_path, os.path.basename(file_path))
+                    shutil.move(file_path, dest_path)
+                    m3u_file.write(f".hidden/{os.path.basename(dest_path).replace(os.sep, '/').replace(' /', '/ ')}\n")
 
 if __name__ == "__main__":
     current_directory = os.getcwd()
