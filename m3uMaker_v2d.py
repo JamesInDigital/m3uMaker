@@ -29,6 +29,8 @@ def separate_games(folder_path):
     multi_disc_games = {}
     
     for root, dirs, files in os.walk(folder_path):
+        if '.hidden' in root:
+            continue
         for file in files:
             if os.path.splitext(file)[1].lower() in ['.7z', '.chd', '.zip', '.cue', '.pbp', '.dsk']:
                 multi_disc_identifier = find_multi_disc_identifier(file)
