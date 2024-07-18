@@ -12,6 +12,8 @@ This work is licensed under a
 # m3uMaker
 M3U creation script originally designed to help organize roms for retro handhelds. Handles multi-disc games and subfolders.
 
+Update: Currently setting up a friend RG35XX+ under muOS and have modified the code to make use of .hidden subfolder for a cleaner interface when it comes to multi-disc games. As always, not a real programmer, use at your own discetion with backs. V2 moves multidisc games to .hidden subfolder and modifies the m3u accordingly. Testing work for PS1 games on RG35XX+
+
 The Short:
 Scans folder for rom files, taking note of those with Disc 1/2 etc and creates m3u files pointing to the images. In theory, this will allow devices like the RG35XX to run games from subfolders (haven't currently tested as the RG35XX I set up with a friend currently) but also helps declutter rom folder by not have entries for each disc of multi-disc games. For Miyoo/RG35XX look up how to change what extensions the emulators will run and narrow it to m3u.
 
