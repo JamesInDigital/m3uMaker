@@ -12,6 +12,8 @@ This work is licensed under a
 # m3uMaker
 M3U creation script originally designed to help organize roms for retro handhelds. Handles multi-disc games and subfolders.
 
+** This shouldn't delete or break any files and hasn't so far in numerous tests. All it does is move multidisc games into a directoryt and create an m3u. But backup your stuff just in case. Not responsible for missing files. **
+
 Update to v2d: Fixed second run. Will ignore games already processed in .hidden folder.
 
 Update to v2c: Fixed disc order in m3u and working with subdirectories.
